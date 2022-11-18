@@ -12,8 +12,8 @@ export function getStemNodes(
   if (!now) return [];
 
   const nodes: CommitNode[] = [];
-  while (now && !now.stemId) {
-    now.stemId = stemId;
+  while (now && !now.getStemId()) {
+    now.setStemId(stemId);
     if (now.commit.parents.length > 1) {
       now.commit.parents.forEach((parent, idx) => {
         if (idx === 0) return;

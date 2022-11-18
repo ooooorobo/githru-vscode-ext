@@ -117,7 +117,7 @@ export const buildCSMDict = (
 
         // get target's stem
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const squashStemId = squashStartNode.stemId!;
+        const squashStemId = squashStartNode.getStemId()!;
         const squashStem = stemDict.get(squashStemId);
         if (!squashStem) {
           continue;
@@ -147,8 +147,8 @@ export const buildCSMDict = (
           .filter((node): node is CommitNode => node !== undefined)
           .filter(
             (node) =>
-              node.stemId !== csmNode.base.stemId &&
-              node.stemId !== squashStemId
+              node.getStemId() !== csmNode.base.getStemId() &&
+              node.getStemId() !== squashStemId
           );
 
         squashTaskQueue.push(...nestedMergeParentCommits);

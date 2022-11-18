@@ -3,7 +3,7 @@ import { CommitRaw } from "./CommitRaw";
 // eslint-disable-next-line import/prefer-default-export
 export class CommitNode {
   // eslint-disable-next-line no-useless-constructor
-  constructor(public commit: CommitRaw, public stemId?: string) {}
+  constructor(public commit: CommitRaw, private stemId?: string) {}
 
   public setStemId(id: string) {
     this.stemId = id;
