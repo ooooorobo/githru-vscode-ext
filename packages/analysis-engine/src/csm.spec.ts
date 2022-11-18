@@ -1,6 +1,7 @@
 import { buildCSMDict } from "./csm";
 
-import type { CommitRaw, CommitNode, Stem, CSMDictionary } from "./types";
+import type { CommitRaw, Stem, CSMDictionary } from "./types";
+import { CommitNode } from "./types";
 
 describe("csm", () => {
   // master = [0, 1,              2,                 3, 4, 5]
@@ -46,7 +47,7 @@ describe("csm", () => {
         nodes: commitIds
           .map((id) => fakeCommitDict.get(`${id}`))
           .filter((commit): commit is CommitRaw => Boolean(commit))
-          .map((commit) => ({ stemId, commit })),
+          .map((commit) => new CommitNode(commit, stemId)),
       },
     ];
   }

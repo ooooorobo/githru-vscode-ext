@@ -1,11 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import type {
-  CommitRaw,
-  CommitNode,
-  Stem,
-  CSMDictionary,
-  CSMNode,
-} from "./types";
+import type { CommitRaw, Stem, CSMDictionary, CSMNode } from "./types";
+import { CommitNode } from "./types";
 import type { PullRequest } from "./types/Github";
 
 /**
@@ -64,7 +59,7 @@ const buildCSMSourceFromPRCommits = (baseCSMNode: CSMNode, pr: PullRequest) =>
       commitMessageType: "",
     };
 
-    return { commit: prCommitRaw };
+    return new CommitNode(prCommitRaw);
   });
 
 /**
@@ -148,7 +143,7 @@ export const buildCSMDict = (
           .map((node) => node.commit.parents)
           .reduce((pCommitIds, parents) => [...pCommitIds, ...parents], []);
         const nestedMergeParentCommits = nestedMergeParentCommitIds
-          .map((commitId) => commitDict.get(commitId))
+          .map((commitId: string) => commitDict.get(commitId))
           .filter((node): node is CommitNode => node !== undefined)
           .filter(
             (node) =>

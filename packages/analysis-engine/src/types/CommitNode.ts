@@ -1,7 +1,19 @@
 import { CommitRaw } from "./CommitRaw";
 
-export interface CommitNode {
-  // 순회 이전에는 stemId가 존재하지 않음.
-  stemId?: string;
-  commit: CommitRaw;
+// eslint-disable-next-line import/prefer-default-export
+export class CommitNode {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(public commit: CommitRaw, public stemId?: string) {}
+
+  public setStemId(id: string) {
+    this.stemId = id;
+  }
+
+  public getStemId(): string | undefined {
+    return this.stemId;
+  }
+
+  public getCommit(): CommitRaw {
+    return { ...this.commit };
+  }
 }

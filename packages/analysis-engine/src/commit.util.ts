@@ -1,16 +1,14 @@
 import {
   CommitRaw,
-  CommitNode,
   CommitMessageType,
   CommitMessageTypeList,
+  CommitNode,
 } from "./types";
 
 type CommitDict = Map<string, CommitNode>;
 
 export function buildCommitDict(commits: CommitRaw[]): CommitDict {
-  return new Map(
-    commits.map((commit) => [commit.id, { commit } as CommitNode])
-  );
+  return new Map(commits.map((commit) => [commit.id, new CommitNode(commit)]));
 }
 
 export function getLeafNodes(commitDict: CommitDict): CommitNode[] {
