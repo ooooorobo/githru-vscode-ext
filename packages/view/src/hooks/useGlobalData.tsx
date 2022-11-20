@@ -10,9 +10,11 @@ import React, {
 import type { ClusterNode } from "types";
 
 import { useGetTotalData } from "./useGetTotalData";
+import type ClusterData from "../common/model/ClusterData";
 
 type GlobalDataState = {
   data: ClusterNode[];
+  clusterData: ClusterData;
   filteredData: ClusterNode[];
   selectedData: ClusterNode[];
   setFilteredData: Dispatch<React.SetStateAction<ClusterNode[]>>;
@@ -23,8 +25,8 @@ export const GlobalDataContext = createContext<GlobalDataState>(
   {} as GlobalDataState
 );
 
-export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
-  const { data } = useGetTotalData();
+export function GlobalDataProvider({ children }: { children: ReactNode }) {
+  const { data, clusterData } = useGetTotalData();
   const [filteredData, setFilteredData] = useState<ClusterNode[]>(data);
   const [selectedData, setSelectedData] = useState<ClusterNode[]>([]);
 
@@ -39,12 +41,13 @@ export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
   const value = useMemo(
     () => ({
       data,
+      clusterData,
       filteredData,
       setFilteredData,
       selectedData,
       setSelectedData,
     }),
-    [data, filteredData, selectedData]
+    [clusterData, data, filteredData, selectedData]
   );
   if (!data.length || !filteredData.length) return null;
 
@@ -53,13 +56,14 @@ export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </GlobalDataContext.Provider>
   );
-};
+}
 
 export const useGlobalData = () => {
   const globalData = useContext<GlobalDataState>(GlobalDataContext);
   return {
     ...globalData,
     data: globalData?.data ?? [],
+    clusterData: globalData.clusterData,
     filteredData: globalData?.filteredData ?? [],
     selectedData: globalData?.selectedData ?? null,
   };
