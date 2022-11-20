@@ -6,4 +6,8 @@ export default class ClusterData {
   public setClusterNodes(nodes: ClusterNode[]) {
     this.clusterNodes = nodes;
   }
+
+  get clusterSizes(): number[] {
+    return this.clusterNodes.map((node) => node.commitNodeList.length);
+  }
 }
