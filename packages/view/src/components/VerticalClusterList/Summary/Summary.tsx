@@ -13,8 +13,13 @@ import { getClusterById, getClusterIds, getInitData } from "./Summary.util";
 import "./Summary.scss";
 
 const Summary = () => {
-  const { filteredData: data, selectedData, setSelectedData } = useGlobalData();
-  const clusters = getInitData({ data });
+  const {
+    filteredData: data,
+    clusterData,
+    selectedData,
+    setSelectedData,
+  } = useGlobalData();
+  const clusters = getInitData({ data, clusterData });
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const selectedClusterId = getClusterIds(selectedData);

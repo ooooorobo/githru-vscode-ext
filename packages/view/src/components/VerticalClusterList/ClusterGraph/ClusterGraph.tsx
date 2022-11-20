@@ -6,7 +6,7 @@ import { useHandleClusterGraph } from "./ClusterGraph.hook";
 
 import "./ClusterGraph.scss";
 
-function ClusterGraph() {
+const ClusterGraph = () => {
   const {
     filteredData: data,
     clusterData,
@@ -33,6 +33,6 @@ function ClusterGraph() {
       height={graphHeight}
     />
   );
-}
+};
 
 export default ClusterGraph;

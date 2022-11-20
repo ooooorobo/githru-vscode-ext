@@ -9,8 +9,9 @@ import React, {
 
 import type { ClusterNode } from "types";
 
-import { useGetTotalData } from "./useGetTotalData";
 import type ClusterData from "../common/model/ClusterData";
+
+import { useGetTotalData } from "./useGetTotalData";
 
 type GlobalDataState = {
   data: ClusterNode[];
@@ -25,7 +26,7 @@ export const GlobalDataContext = createContext<GlobalDataState>(
   {} as GlobalDataState
 );
 
-export function GlobalDataProvider({ children }: { children: ReactNode }) {
+export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
   const { data, clusterData } = useGetTotalData();
   const [filteredData, setFilteredData] = useState<ClusterNode[]>(data);
   const [selectedData, setSelectedData] = useState<ClusterNode[]>([]);
@@ -56,7 +57,7 @@ export function GlobalDataProvider({ children }: { children: ReactNode }) {
       {children}
     </GlobalDataContext.Provider>
   );
-}
+};
 
 export const useGlobalData = () => {
   const globalData = useContext<GlobalDataState>(GlobalDataContext);
