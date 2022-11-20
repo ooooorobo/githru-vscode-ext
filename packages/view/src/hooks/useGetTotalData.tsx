@@ -3,19 +3,25 @@ import { useState, useEffect } from "react";
 import type { ClusterNode, GlobalProps } from "types";
 
 import fakeData from "../fake-assets/cluster-nodes.json";
+import ClusterData from "../common/model/ClusterData";
 
 export const useGetTotalData = (): GlobalProps => {
   const [data, setData] = useState<ClusterNode[]>([]);
+  const [clusterData] = useState<ClusterData>(new ClusterData());
 
   useEffect(() => {
     console.log("isProduction = ", window.isProduction);
 
-    if (window.isProduction) {
-      setData(window.githruData as ClusterNode[]);
-    } else {
-      setData(fakeData as unknown as ClusterNode[]);
-    }
+    const clusterNodes: ClusterNode[] = (
+      window.isProduction ? window.githruData : fakeData
+    ) as ClusterNode[];
+
+    setData(clusterNodes);
   }, []);
 
-  return { data };
+  useEffect(() => {
+    clusterData?.setClusterNodes(data);
+  }, [clusterData, data]);
+
+  return { data, clusterData };
 };
