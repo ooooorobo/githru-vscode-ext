@@ -3,10 +3,6 @@ import type { ClusterNode, SelectedDataProps } from "types";
 import { CLUSTER_HEIGHT, NODE_GAP, SVG_MARGIN } from "./ClusterGraph.const";
 import type { ClusterGraphElement } from "./ClusterGraph.type";
 
-export function getClusterSizes(data: ClusterNode[]) {
-  return data.map((node) => node.commitNodeList.length);
-}
-
 export function getGraphHeight(clusterSizes: number[]) {
   return (
     clusterSizes.length * CLUSTER_HEIGHT +
