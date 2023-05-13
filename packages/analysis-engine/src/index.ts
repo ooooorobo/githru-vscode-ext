@@ -45,12 +45,21 @@ export class AnalysisEngine {
     this.octokit = container.resolve(PluginOctokit);
   };
 
+  private async getPullRequests() {
+    try {
+      return await this.octokit.getPullRequests();
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
+  }
+
   public analyzeGit = async () => {
     if (this.isDebugMode) console.log("baseBranchName: ", this.baseBranchName);
     const commitRaws = getCommitRaws(this.gitLog);
     if (this.isDebugMode) console.log("commitRaws: ", commitRaws);
     const commitDict = buildCommitDict(commitRaws);
-    const pullRequests = await this.octokit.getPullRequests();
+    const pullRequests = await this.getPullRequests();
     if (this.isDebugMode) console.log("pullRequests: ", pullRequests);
     const stemDict = buildStemDict(commitDict, this.baseBranchName);
     if (this.isDebugMode) console.log("stemDict: ", stemDict);

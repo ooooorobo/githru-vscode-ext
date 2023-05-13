@@ -1,4 +1,4 @@
-import { singleton, inject } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import { OctokitOptions } from "@octokit/core/dist-types/types";
 import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
@@ -21,25 +21,15 @@ export class PluginOctokit extends Octokit.plugin(throttling) {
     super({
       ...props.options,
       throttle: {
-        onRateLimit: (retryAfter, options) => {
-          const {
-            method,
-            url,
-            request: { retryCount },
-          } = options as {
+        onRateLimit: (_, options) => {
+          const { method, url } = options as {
             method: string;
             url: string;
             request: { retryCount: number };
           };
-          console.log(
+          throw new Error(
             `[L] - request quota exhausted for request ${method} ${url}`
           );
-
-          if (retryCount <= 1) {
-            console.log(`[L] - retrying after ${retryAfter} seconds!`);
-            return true;
-          }
-          return false;
         },
         onAbuseLimit: (retryAfter, options) => {
           const { method, url } = options as { method: string; url: string };
